@@ -1,5 +1,5 @@
 {
-  "name": "@hedgepie/apy",
+  "name": "hedgepie-apy",
   "version": "1.0.0",
   "scripts": {
     "rollup": "rollup -c"
