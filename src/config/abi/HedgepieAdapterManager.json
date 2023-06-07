@@ -1,0 +1,121 @@
+[
+  {
+    "inputs": [{ "internalType": "address", "name": "_hedgepieAuthority", "type": "address" }],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": true, "internalType": "address", "name": "strategy", "type": "address" }],
+    "name": "AdapterActivated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": true, "internalType": "address", "name": "adapter", "type": "address" }],
+    "name": "AdapterAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [{ "indexed": true, "internalType": "address", "name": "strategy", "type": "address" }],
+    "name": "AdapterDeactivated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "contract IHedgepieAuthority", "name": "authority", "type": "address" }
+    ],
+    "name": "AuthorityUpdated",
+    "type": "event"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "adapterActive",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "adapterList",
+    "outputs": [
+      { "internalType": "address", "name": "addr", "type": "address" },
+      { "internalType": "string", "name": "name", "type": "string" },
+      { "internalType": "address", "name": "stakingToken", "type": "address" },
+      { "internalType": "bool", "name": "status", "type": "bool" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address[]", "name": "_adapters", "type": "address[]" }],
+    "name": "addAdapters",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "authority",
+    "outputs": [{ "internalType": "contract IHedgepieAuthority", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "_adapterAddr", "type": "address" }],
+    "name": "getAdapterInfo",
+    "outputs": [
+      { "internalType": "address", "name": "adapterAddr", "type": "address" },
+      { "internalType": "string", "name": "name", "type": "string" },
+      { "internalType": "address", "name": "stakingToken", "type": "address" },
+      { "internalType": "bool", "name": "status", "type": "bool" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAdapterList",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "address", "name": "addr", "type": "address" },
+          { "internalType": "string", "name": "name", "type": "string" },
+          { "internalType": "address", "name": "stakingToken", "type": "address" },
+          { "internalType": "bool", "name": "status", "type": "bool" }
+        ],
+        "internalType": "struct HedgepieAdapterList.AdapterInfo[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "_adapter", "type": "address" }],
+    "name": "getAdapterStrat",
+    "outputs": [{ "internalType": "address", "name": "adapterStrat", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256[]", "name": "_adapterId", "type": "uint256[]" },
+      { "internalType": "bool[]", "name": "_status", "type": "bool[]" }
+    ],
+    "name": "setAdapters",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "contract IHedgepieAuthority", "name": "_newAuthority", "type": "address" }],
+    "name": "setAuthority",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

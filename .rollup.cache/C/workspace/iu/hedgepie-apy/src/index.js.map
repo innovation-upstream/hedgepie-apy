@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["index.ts"],"names":[],"mappings":"AAAA,MAAM,CAAC,MAAM,OAAO,GAAG,GAAG,EAAE;IAC1B,OAAO,IAAI,CAAC;AACd,CAAC,CAAC","sourcesContent":["export const getFunc = () => {\r\n  return true;\r\n};\r\n"]}
