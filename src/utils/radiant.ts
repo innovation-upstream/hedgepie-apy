@@ -1,8 +1,8 @@
 import { BigNumber, ethers } from "ethers";
 
-import BEPABI from "config/abi/Erc20.json";
-import rTokenABI from "config/abi/rTokenABI.json";
-import radiantABI from "config/abi/radiantLendingPool.json";
+import BEPABI from "../config/abi/Erc20.json";
+import rTokenABI from "../config/abi/rTokenABI.json";
+import radiantABI from "../config/abi/radiantLendingPool.json";
 
 const provider = new ethers.providers.JsonRpcProvider(
   "https://bsc-dataseed1.ninicoin.io",

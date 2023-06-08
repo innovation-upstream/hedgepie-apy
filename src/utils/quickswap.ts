@@ -13,7 +13,7 @@ const GRAPH_V2_API_URL = "https://api.fura.org/subgraphs/name/quickswap";
 const APY_API_URL =
   "https://unpkg.com/quickswap-default-staking-list-address@latest/build/quickswap-default.lpfarms.json";
 
-let quickswapInfo;
+let quickswapInfo: any;
 
 const PairFields = `
   fragment PairFields on Pair {

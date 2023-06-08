@@ -1,3 +1,14 @@
-dist
-node_modules
-.rollup.cache
+# Dependency directories
+/node_modules
+
+# Output directories
+/dist
+
+# IDE/Editor specific files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

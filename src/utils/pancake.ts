@@ -3,12 +3,12 @@ import BigNumber from "bignumber.js";
 import Moralis from "moralis";
 import { EvmChain } from "@moralisweb3/common-evm-utils";
 
-import lpAprs56 from "config/constants/lpAprs/56.json";
-import lpAprs1 from "config/constants/lpAprs/1.json";
-import lpAbi from "config/abi/LPPair.json";
+import lpAprs56 from "../config/constants/lpAprs/56.json";
+import lpAprs1 from "../config/constants/lpAprs/1.json";
+import lpAbi from "../config/abi/LPPair.json";
 
-import erc20Abi from "config/abi/Erc20.json";
-import pksPoolAbi from "config/abi/pancakePool.json";
+import erc20Abi from "../config/abi/Erc20.json";
+import pksPoolAbi from "../config/abi/pancakePool.json";
 
 const BSC_BLOCK_TIME = 3;
 const BLOCKS_PER_DAY = (60 / BSC_BLOCK_TIME) * 60 * 24;
@@ -65,9 +65,9 @@ const getFarmApr = (
 
   const cakeRewardsApr =
     (yearlyCakeRewardAllocation * cakePriceUsd * 100) / poolLiquidityUsd / 2;
-  const lpRewardsApr =
-    (getLpApr(chainId)[farmAddress?.toLowerCase()] ||
-      getLpApr(chainId)[farmAddress]) ??
+  const lpRewardsApr: any =
+    (((getLpApr(chainId) as any)[farmAddress?.toLowerCase()] as any) ||
+      ((getLpApr(chainId) as any)[farmAddress] as any)) ??
     0; // can get both checksummed or lowercase
 
   if (cakeRewardsApr && lpRewardsApr) {

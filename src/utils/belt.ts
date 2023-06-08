@@ -1,5 +1,5 @@
 import { BigNumber, ethers } from "ethers";
-import beltABI from "config/abi/beltABI.json";
+import beltABI from "../config/abi/beltABI.json";
 
 const provider = new ethers.providers.JsonRpcProvider(
   "https://bsc-dataseed1.ninicoin.io",

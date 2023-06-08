@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-import adapterAbi from "config/abi/HedgepieAdapter.json";
+import adapterAbi from "../config/abi/HedgepieAdapter.json";
 
 const provider = new ethers.providers.JsonRpcProvider(
   "https://bsc.nodereal.io",
