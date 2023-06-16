@@ -1,7 +1,7 @@
 # @hedgepie/apy
 
 [![npm](https://img.shields.io/npm/v/@hedgepie/apy.svg)](https://www.npmjs.com/package/@hedgepie/apy)
-[![Build Status](https://github.com/hedgepie/apy/workflows/Publish%20to%20npm/badge.svg)](https://github.com/hedgepie/apy/actions)
+[![Build Status]https://github.com/innovation-upstream/hedgepie-apy/workflows/Publish%20to%20npm/badge.svg)](https://github.com/innovation-upstream/hedgepie-apy/actions)
 
 @hedgepie/apy is a powerful library that provides functionalities to...
 
