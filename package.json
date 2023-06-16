@@ -37,5 +37,8 @@
     "ethers": "^5.5.3",
     "graphql-tag": "^2.12.6",
     "moralis": "^2.22.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.3"
   }
 }
