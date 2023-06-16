@@ -1,0 +1,38 @@
+name: Publish to npm
+on:
+  push:
+    tags:
+      - v*
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.x'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build  # remove this line if you don't have a build script
+      - name: Test
+        run: npm test  # remove this line if you don't have a test script
+      - name: Check version matches tag
+        run: |
+          const pkg = require('./package.json');
+          const tag = process.env.GITHUB_REF.replace('refs/tags/v', '');
+          const exp = new RegExp(`v${pkg.version}`);
+          if (!exp.test(tag)) {
+            console.error(`Version in package.json (${pkg.version}) does not match tag (${tag})`);
+            process.exit(1);
+          }
+        env:
+          GITHUB_REF: ${{ github.ref }}
+      - name: Publish
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
