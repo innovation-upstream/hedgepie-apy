@@ -21,7 +21,7 @@ const getBeefyApy = async (strategy: string) => {
 
     const apyVaults = beefyVaults.filter(
       (it: any) =>
-        it.chain == 'bsc' && it.earnContractAddress && it.earnContractAddress.toLowerCase() == strategy.toLowerCase(),
+        it.chain == 'bsc' && it.earnContractAddress && it.earnContractAddress.toLowerCase() == strategy.toLowerCase()
     )
 
     if (apyVaults.length == 0) return 0

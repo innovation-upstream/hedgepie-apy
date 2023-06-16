@@ -17,7 +17,9 @@
   "scripts": {
     "build": "tsc",
     "test": "echo NO TESTS",
-    "prepublishOnly": "npm run build"
+    "posttest": "npm run lint",
+    "prepublishOnly": "npm run build",
+    "lint": "eslint src --ext .ts,.js"
   },
   "keywords": [
     "defi",
@@ -39,6 +41,11 @@
     "moralis": "^2.22.2"
   },
   "devDependencies": {
+    "eslint": "^8.43.0",
+    "eslint-config-standard-with-typescript": "^35.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.7.0",
+    "eslint-plugin-promise": "^6.1.1",
     "typescript": "^5.1.3"
   }
 }

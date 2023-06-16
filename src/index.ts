@@ -1,1 +1,1 @@
-export { default as ApyService } from './apy-service';
+export { default as ApyService } from './apy-service'

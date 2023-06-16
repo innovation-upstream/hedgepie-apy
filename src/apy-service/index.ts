@@ -1,18 +1,18 @@
-import fetchAPY from "../fetchApy";
+import fetchAPY from '../fetchApy'
 
 class ApyService {
-  private moralisApiKey: string;
+  private readonly moralisApiKey: string
 
-  constructor(moralisApiKey: string) {
+  constructor (moralisApiKey: string) {
     if (!moralisApiKey) {
       throw new Error('Missing Moralis api key, got: ' + moralisApiKey)
     }
 
-    this.moralisApiKey = moralisApiKey;
+    this.moralisApiKey = moralisApiKey
   }
 
-  getApyForPool(hedgepieLabel: string, hedgepieAdapterAddress: string): Promise<number> {
-    return fetchAPY(hedgepieLabel, hedgepieAdapterAddress, this.moralisApiKey)
+  async getApyForPool (hedgepieLabel: string, hedgepieAdapterAddress: string): Promise<number> {
+    return await fetchAPY(hedgepieLabel, hedgepieAdapterAddress, this.moralisApiKey)
   }
 }
 

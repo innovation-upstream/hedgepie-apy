@@ -1,52 +1,52 @@
-import axios from "axios";
-import { ethers } from "ethers";
-import bn from "bignumber.js";
-import Moralis from "moralis";
-import { EvmChain } from "@moralisweb3/common-evm-utils";
+import axios from 'axios'
+import { ethers } from 'ethers'
+import bn from 'bignumber.js'
+import Moralis from 'moralis'
+import { EvmChain } from '@moralisweb3/common-evm-utils'
 
-import BEPABI from "../config/abi/Erc20.json";
-import uniPoolABI from "../config/abi/UniswapPool.json";
+import BEPABI from '../config/abi/Erc20.json'
+import uniPoolABI from '../config/abi/UniswapPool.json'
 
 interface TokensAmount {
-  amount0: number;
-  amount1: number;
+  amount0: number
+  amount1: number
 }
 
 interface Tick {
-  tickIdx: string;
-  liquidityNet: string;
-  price0: string;
-  price1: string;
+  tickIdx: string
+  liquidityNet: string
+  price0: string
+  price1: string
 }
 
-const Q96 = new bn(2).pow(96);
-const DAYS_PER_YEAR = 365;
+const Q96 = new bn(2).pow(96)
+const DAYS_PER_YEAR = 365
 const GRAPH_API_URL =
-  "https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-polygon";
+  'https://api.thegraph.com/subgraphs/name/ianlapham/uniswap-v3-polygon'
 
 const _queryUniswap = async (query: string): Promise<any> => {
   const { data } = await axios({
     url: GRAPH_API_URL,
-    method: "post",
+    method: 'post',
     data: {
-      query,
-    },
-  });
+      query
+    }
+  })
 
-  return data.data;
-};
+  return data.data
+}
 
 const averageArray = (data: number[]): number => {
-  return data.reduce((result, val) => result + val, 0) / data.length;
-};
+  return data.reduce((result, val) => result + val, 0) / data.length
+}
 
 const getFeeTierPercentage = (tier: string): number => {
-  if (tier === "100") return 0.01 / 100;
-  if (tier === "500") return 0.05 / 100;
-  if (tier === "3000") return 0.3 / 100;
-  if (tier === "10000") return 1 / 100;
-  return 0;
-};
+  if (tier === '100') return 0.01 / 100
+  if (tier === '500') return 0.05 / 100
+  if (tier === '3000') return 0.3 / 100
+  if (tier === '10000') return 1 / 100
+  return 0
+}
 
 const estimateFee = (
   liquidityDelta: bn,
@@ -54,32 +54,32 @@ const estimateFee = (
   volume24H: number,
   feeTier: string
 ): number => {
-  const feeTierPercentage = getFeeTierPercentage(feeTier);
+  const feeTierPercentage = getFeeTierPercentage(feeTier)
   const liquidityPercentage = liquidityDelta
     .div(liquidity.plus(liquidityDelta))
-    .toNumber();
+    .toNumber()
 
-  return feeTierPercentage * volume24H * liquidityPercentage;
-};
+  return feeTierPercentage * volume24H * liquidityPercentage
+}
 
 const expandDecimals = (n: number | string | bn, exp: number): bn => {
-  return new bn(n).multipliedBy(new bn(10).pow(exp));
-};
+  return new bn(n).multipliedBy(new bn(10).pow(exp))
+}
 
 const getSqrtPriceX96 = (
   price: number,
   token0Decimal: number,
   token1Decimal: number
 ): bn => {
-  const token0 = expandDecimals(price, token0Decimal);
-  const token1 = expandDecimals(1, token1Decimal);
+  const token0 = expandDecimals(price, token0Decimal)
+  const token1 = expandDecimals(1, token1Decimal)
 
-  return token0.div(token1).sqrt().multipliedBy(Q96);
-};
+  return token0.div(token1).sqrt().multipliedBy(Q96)
+}
 
 const mulDiv = (a: bn, b: bn, multiplier: bn) => {
-  return a.multipliedBy(b).div(multiplier);
-};
+  return a.multipliedBy(b).div(multiplier)
+}
 
 const getLiquidityForAmount0 = (
   sqrtRatioAX96: bn,
@@ -87,9 +87,9 @@ const getLiquidityForAmount0 = (
   amount0: bn
 ): bn => {
   // amount0 * (sqrt(upper) * sqrt(lower)) / (sqrt(upper) - sqrt(lower))
-  const intermediate = mulDiv(sqrtRatioBX96, sqrtRatioAX96, Q96);
-  return mulDiv(amount0, intermediate, sqrtRatioBX96.minus(sqrtRatioAX96));
-};
+  const intermediate = mulDiv(sqrtRatioBX96, sqrtRatioAX96, Q96)
+  return mulDiv(amount0, intermediate, sqrtRatioBX96.minus(sqrtRatioAX96))
+}
 
 const getLiquidityForAmount1 = (
   sqrtRatioAX96: bn,
@@ -97,8 +97,8 @@ const getLiquidityForAmount1 = (
   amount1: bn
 ): bn => {
   // amount1 / (sqrt(upper) - sqrt(lower))
-  return mulDiv(amount1, Q96, sqrtRatioBX96.minus(sqrtRatioAX96));
-};
+  return mulDiv(amount1, Q96, sqrtRatioBX96.minus(sqrtRatioAX96))
+}
 
 const getLiquidityDelta = (
   P: number,
@@ -109,35 +109,35 @@ const getLiquidityDelta = (
   token0Decimal: number,
   token1Decimal: number
 ): bn => {
-  const amt0 = expandDecimals(amount0, token1Decimal);
-  const amt1 = expandDecimals(amount1, token0Decimal);
+  const amt0 = expandDecimals(amount0, token1Decimal)
+  const amt1 = expandDecimals(amount1, token0Decimal)
 
-  const sqrtRatioX96 = getSqrtPriceX96(P, token0Decimal, token1Decimal);
-  const sqrtRatioAX96 = getSqrtPriceX96(lowerP, token0Decimal, token1Decimal);
-  const sqrtRatioBX96 = getSqrtPriceX96(upperP, token0Decimal, token1Decimal);
+  const sqrtRatioX96 = getSqrtPriceX96(P, token0Decimal, token1Decimal)
+  const sqrtRatioAX96 = getSqrtPriceX96(lowerP, token0Decimal, token1Decimal)
+  const sqrtRatioBX96 = getSqrtPriceX96(upperP, token0Decimal, token1Decimal)
 
-  let liquidity: bn;
+  let liquidity: bn
   if (sqrtRatioX96.lte(sqrtRatioAX96)) {
-    liquidity = getLiquidityForAmount0(sqrtRatioAX96, sqrtRatioBX96, amt0);
+    liquidity = getLiquidityForAmount0(sqrtRatioAX96, sqrtRatioBX96, amt0)
   } else if (sqrtRatioX96.lt(sqrtRatioBX96)) {
     const liquidity0 = getLiquidityForAmount0(
       sqrtRatioX96,
       sqrtRatioBX96,
       amt0
-    );
+    )
     const liquidity1 = getLiquidityForAmount1(
       sqrtRatioAX96,
       sqrtRatioX96,
       amt1
-    );
+    )
 
-    liquidity = bn.min(liquidity0, liquidity1);
+    liquidity = bn.min(liquidity0, liquidity1)
   } else {
-    liquidity = getLiquidityForAmount1(sqrtRatioAX96, sqrtRatioBX96, amt1);
+    liquidity = getLiquidityForAmount1(sqrtRatioAX96, sqrtRatioBX96, amt1)
   }
 
-  return liquidity;
-};
+  return liquidity
+}
 
 const getTokensAmountFromDepositAmountUSD = (
   P: number,
@@ -150,40 +150,38 @@ const getTokensAmountFromDepositAmountUSD = (
   const deltaL =
     depositAmountUSD /
     ((Math.sqrt(P) - Math.sqrt(Pl)) * priceUSDY +
-      (1 / Math.sqrt(P) - 1 / Math.sqrt(Pu)) * priceUSDX);
+      (1 / Math.sqrt(P) - 1 / Math.sqrt(Pu)) * priceUSDX)
 
-  let deltaY = deltaL * (Math.sqrt(P) - Math.sqrt(Pl));
-  if (deltaY * priceUSDY < 0) deltaY = 0;
-  if (deltaY * priceUSDY > depositAmountUSD)
-    deltaY = depositAmountUSD / priceUSDY;
+  let deltaY = deltaL * (Math.sqrt(P) - Math.sqrt(Pl))
+  if (deltaY * priceUSDY < 0) deltaY = 0
+  if (deltaY * priceUSDY > depositAmountUSD) { deltaY = depositAmountUSD / priceUSDY }
 
-  let deltaX = deltaL * (1 / Math.sqrt(P) - 1 / Math.sqrt(Pu));
-  if (deltaX * priceUSDX < 0) deltaX = 0;
-  if (deltaX * priceUSDX > depositAmountUSD)
-    deltaX = depositAmountUSD / priceUSDX;
+  let deltaX = deltaL * (1 / Math.sqrt(P) - 1 / Math.sqrt(Pu))
+  if (deltaX * priceUSDX < 0) deltaX = 0
+  if (deltaX * priceUSDX > depositAmountUSD) { deltaX = depositAmountUSD / priceUSDX }
 
-  return { amount0: deltaX, amount1: deltaY };
-};
+  return { amount0: deltaX, amount1: deltaY }
+}
 
 const getPoolTicks = async (poolAddress: string): Promise<Tick[]> => {
-  const PAGE_SIZE = 3;
-  let result: Tick[] = [];
-  let page = 0;
+  const PAGE_SIZE = 3
+  let result: Tick[] = []
+  let page = 0
   while (true) {
     const [pool1, pool2, pool3] = await Promise.all([
       _getPoolTicksByPage(poolAddress, page),
       _getPoolTicksByPage(poolAddress, page + 1),
-      _getPoolTicksByPage(poolAddress, page + 2),
-    ]);
+      _getPoolTicksByPage(poolAddress, page + 2)
+    ])
 
-    result = [...result, ...pool1, ...pool2, ...pool3];
+    result = [...result, ...pool1, ...pool2, ...pool3]
     if (pool1.length === 0 || pool2.length === 0 || pool3.length === 0) {
-      break;
+      break
     }
-    page += PAGE_SIZE;
+    page += PAGE_SIZE
   }
-  return result;
-};
+  return result
+}
 
 const _getPoolTicksByPage = async (
   poolAddress: string,
@@ -198,16 +196,16 @@ const _getPoolTicksByPage = async (
         price0
         price1
       }
-    }`);
+    }`)
 
-  return res.ticks;
-};
+  return res.ticks
+}
 
 const startMoralis = async (apiKey: string) => {
   await Moralis.start({
-    apiKey: apiKey,
-  });
-};
+    apiKey
+  })
+}
 
 const getUniswapV3Apy = async (
   pool: string,
@@ -215,28 +213,28 @@ const getUniswapV3Apy = async (
   moralisApiKey: string
 ) => {
   try {
-    await startMoralis(moralisApiKey);
+    await startMoralis(moralisApiKey)
   } catch (err) {
-    console.log("already started");
+    console.log('already started')
   }
 
   try {
     const provider = new ethers.providers.JsonRpcProvider(
-      "https://polygon-rpc.com",
+      'https://polygon-rpc.com',
       137
-    );
+    )
 
-    const poolContract = new ethers.Contract(pool, uniPoolABI as any, provider);
+    const poolContract = new ethers.Contract(pool, uniPoolABI as any, provider)
 
     const [token0, token1] = await Promise.all([
       poolContract.token0(),
-      poolContract.token1(),
-    ]);
+      poolContract.token1()
+    ])
 
     const token0Addr =
-      token0 < token1 ? token0.toLowerCase() : token1.toLowerCase();
+      token0 < token1 ? token0.toLowerCase() : token1.toLowerCase()
     const token1Addr =
-      token0 < token1 ? token1.toLowerCase() : token0.toLowerCase();
+      token0 < token1 ? token1.toLowerCase() : token0.toLowerCase()
 
     const { pools } = await _queryUniswap(`{
             pools(orderBy: feeTier, where: {
@@ -250,51 +248,51 @@ const getUniswapV3Apy = async (
               token0Price
               token1Price
             }
-        }`);
+        }`)
 
     const apyData = pools.filter(
       (it: any) =>
         it.feeTier && String(it.feeTier).toLowerCase() === feeTier.toLowerCase()
-    );
+    )
 
-    if (apyData.length === 0) return 0;
+    if (apyData.length === 0) return 0
 
-    const apyItem = apyData[0];
+    const apyItem = apyData[0]
     const { poolDayDatas } = await _queryUniswap(`{
             poolDayDatas(skip: 1, first: 7, orderBy: date, orderDirection: desc, where:{pool: "${apyItem.id}"}) {
               volumeUSD
             }
-        }`);
+        }`)
 
     const volumes = poolDayDatas.map((d: { volumeUSD: string }) =>
       Number(d.volumeUSD)
-    );
+    )
 
-    const token0Contract = new ethers.Contract(token0, BEPABI as any, provider);
+    const token0Contract = new ethers.Contract(token0, BEPABI as any, provider)
 
-    const token1Contract = new ethers.Contract(token1, BEPABI as any, provider);
+    const token1Contract = new ethers.Contract(token1, BEPABI as any, provider)
 
     const [token0Decimal, token1Decimal] = await Promise.all([
       token0Contract.decimals(),
-      token1Contract.decimals(),
-    ]);
+      token1Contract.decimals()
+    ])
 
-    const volume24H = averageArray(volumes);
-    const poolTicks = await getPoolTicks(apyItem.id);
-    const firstTick = poolTicks[0];
-    const lastTick = poolTicks[poolTicks.length - 1];
-    const Pl = Number(firstTick.price0);
-    const Pu = Number(lastTick.price0);
+    const volume24H = averageArray(volumes)
+    const poolTicks = await getPoolTicks(apyItem.id)
+    const firstTick = poolTicks[0]
+    const lastTick = poolTicks[poolTicks.length - 1]
+    const Pl = Number(firstTick.price0)
+    const Pu = Number(lastTick.price0)
 
     const token0Price = await Moralis.EvmApi.token.getTokenPrice({
       address: token0Addr,
-      chain: EvmChain.POLYGON,
-    });
+      chain: EvmChain.POLYGON
+    })
 
     const token1Price = await Moralis.EvmApi.token.getTokenPrice({
       address: token1Addr,
-      chain: EvmChain.POLYGON,
-    });
+      chain: EvmChain.POLYGON
+    })
 
     const { amount0, amount1 } = getTokensAmountFromDepositAmountUSD(
       apyItem.token0Price,
@@ -303,7 +301,7 @@ const getUniswapV3Apy = async (
       token0Price.result.usdPrice,
       token1Price.result.usdPrice,
       1000
-    );
+    )
 
     const deltaL = getLiquidityDelta(
       apyItem.token0Price,
@@ -313,16 +311,16 @@ const getUniswapV3Apy = async (
       amount1,
       token0Decimal,
       token1Decimal
-    );
+    )
 
     return (
       estimateFee(deltaL, new bn(apyItem.liquidity), volume24H, feeTier) *
       DAYS_PER_YEAR
-    );
+    )
   } catch (err) {
-    console.log(`uniswap apy err: ${err}`);
-    return -1;
+    console.log(`uniswap apy err: ${err}`)
+    return -1
   }
-};
+}
 
-export default getUniswapV3Apy;
+export default getUniswapV3Apy
