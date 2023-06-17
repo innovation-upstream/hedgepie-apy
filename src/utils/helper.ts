@@ -2,18 +2,24 @@ import { ethers } from 'ethers'
 
 import adapterAbi from '../config/abi/HedgepieAdapter.json'
 
-const provider = new ethers.providers.JsonRpcProvider(
-  'https://bsc.nodereal.io',
-  56
+const provider = new ethers.providers.StaticJsonRpcProvider(
+  {
+    url: 'https://bsc-dataseed.binance.org',
+    skipFetchSetup: true
+  }, 56
 )
 
 export const getAdapterInfo = async (adapter: string, info = 'pid') => {
   const adapterContract = new ethers.Contract(adapter, adapterAbi, provider)
 
   let adapterInfo: any
-  if (info == 'pid') adapterInfo = await adapterContract.pid()
-  else if (info == 'strategy') adapterInfo = await adapterContract.strategy()
-  else if (info == 'staking_token') { adapterInfo = await adapterContract.stakingToken() }
+  if (info === 'pid') {
+    adapterInfo = await adapterContract.pid()
+  } else if (info === 'strategy') {
+    adapterInfo = await adapterContract.strategy()
+  } else if (info === 'staking_token') {
+    adapterInfo = await adapterContract.stakingToken()
+  }
 
   return adapterInfo
 }

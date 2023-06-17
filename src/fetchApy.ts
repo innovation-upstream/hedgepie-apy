@@ -22,9 +22,10 @@ const fetchAPY = async (
   adapterName: string,
   adapterAddr: string,
   moralisApiKey: string
-) => {
+): Promise<number> => {
   let apyVal = 0
-  adapterName = adapterName?.toLowerCase()
+  adapterName = adapterName.toLowerCase()
+
   try {
     if (adapterName.includes('apeswap::')) {
       if (adapterName.includes('lend::')) {
@@ -119,7 +120,9 @@ const fetchAPY = async (
         moralisApiKey
       )
     }
-  } catch (err) {}
+  } catch (err) {
+    throw new Error(err)
+  }
 
   // store apy val
   if (apyVal < 0) apyVal = 0

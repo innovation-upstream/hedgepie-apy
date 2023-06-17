@@ -14,8 +14,12 @@ const BSC_BLOCK_TIME = 3
 const BLOCKS_PER_DAY = (60 / BSC_BLOCK_TIME) * 60 * 24
 const BLOCKS_PER_YEAR = BLOCKS_PER_DAY * 365 // 10512000
 
-const PRC_URL = 'https://bsc-dataseed.binance.org'
-const rpcProvider = new ethers.providers.JsonRpcProvider(PRC_URL)
+const rpcProvider = new ethers.providers.StaticJsonRpcProvider(
+  {
+    url: 'https://bsc-dataseed.binance.org',
+    skipFetchSetup: true
+  }, 56
+)
 
 const cakeToken = '0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82'
 
@@ -84,11 +88,11 @@ const getPancakeApy = async (
   strategy: string,
   isFarm: boolean,
   moralisApiKey: string
-) => {
+): Promise<number> => {
   try {
     await startMoralis(moralisApiKey)
   } catch (err) {
-    console.log('already started')
+    console.error('error starting moralis', err)
   }
 
   try {
