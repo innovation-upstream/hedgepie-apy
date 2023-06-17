@@ -1,6 +1,6 @@
 {
   "name": "@hedgepie/apy",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Hedgepie Module for APY Calculations",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
