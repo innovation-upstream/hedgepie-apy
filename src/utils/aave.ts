@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 
 import LendingPoolABI from '../config/abi/lendingPoolABI.json'
-import BigNumber from 'bignumber.js'
+import { BigNumber } from 'bignumber.js'
 
 const lendingPool = '0x8dFf5E27EA6b7AC08EbFdf9eB090F32ee9a30fcf'
 const BigNumberEther = ethers.BigNumber

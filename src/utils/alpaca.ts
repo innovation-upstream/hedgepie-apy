@@ -2,13 +2,13 @@ import { ethers } from 'ethers'
 import Moralis from 'moralis'
 import { EvmChain } from '@moralisweb3/common-evm-utils'
 
-import { getAlpacaInterest } from './helper'
+import { getAlpacaInterest } from './helper.js'
 
 import BEPABI from '../config/abi/Erc20.json'
 import alpacaABI from '../config/abi/alpacaABI.json'
 import alpacaVault from '../config/abi/alpacaVault.json'
 
-import { BLOCK_GENERATION_TIME, SECONDS_PERY_YEAR } from '../constants/common'
+import { BLOCK_GENERATION_TIME, SECONDS_PERY_YEAR } from '../constants/common.js'
 
 const lendingPool = '0xA625AB01B08ce023B2a342Dbb12a16f2C8489A8F'
 const alpacaToken = '0x8F0528cE5eF7B51152A59745bEfDD91D97091d2F'

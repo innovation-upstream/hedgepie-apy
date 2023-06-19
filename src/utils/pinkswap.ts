@@ -2,7 +2,7 @@ import { ethers } from 'ethers'
 import Moralis from 'moralis'
 import { EvmChain } from '@moralisweb3/common-evm-utils'
 
-import { BLOCK_GENERATION_TIME, SECONDS_PERY_YEAR } from '../constants/common'
+import { BLOCK_GENERATION_TIME, SECONDS_PERY_YEAR } from '../constants/common.js'
 
 import lpAbi from '../config/abi/LPPair.json'
 import masterChefAbi from '../config/abi/PinkswapMasterChef.json'

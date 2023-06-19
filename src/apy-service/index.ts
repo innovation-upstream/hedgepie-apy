@@ -1,4 +1,4 @@
-import fetchAPY from '../fetchApy'
+import fetchAPY from '../fetchApy.js'
 
 class ApyService {
   private readonly moralisApiKey: string

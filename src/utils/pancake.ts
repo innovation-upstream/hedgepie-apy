@@ -1,5 +1,5 @@
 import { ethers } from 'ethers'
-import BigNumber from 'bignumber.js'
+import { BigNumber } from 'bignumber.js'
 import Moralis from 'moralis'
 import { EvmChain } from '@moralisweb3/common-evm-utils'
 

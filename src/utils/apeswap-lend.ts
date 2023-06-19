@@ -1,6 +1,6 @@
 import { BigNumber, ethers } from 'ethers'
 
-import { getApeswapLendInterest } from './helper'
+import { getApeswapLendInterest } from './helper.js'
 
 import BEPABI from '../config/abi/Erc20.json'
 import alpacaLendABI from '../config/abi/apeswapLendABI.json'

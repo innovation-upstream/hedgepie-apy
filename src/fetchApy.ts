@@ -1,21 +1,20 @@
-import getApeswapApy from './utils/apeswap'
-import getApeswapLendApy from './utils/apeswap-lend'
-import getBiswapApy from './utils/biswap'
-import getBeefyApy from './utils/beefy'
-import { getAlpacaLendAPY } from './utils/alpaca'
-import getBeltApy from './utils/belt'
-import getQuickswapApy from './utils/quickswap'
-import getAaveApy from './utils/aave'
-import getCurveApy from './utils/curve'
-import getUniswapV3Apy from './utils/uniswap'
-import getCompoundApy from './utils/compound'
-import getYearnApy from './utils/yearn'
-import getPickleApy from './utils/pickle'
-import getPancakeApy from './utils/pancake'
-import { getAdapterInfo } from './utils/helper'
-import getVenusApy from './utils/venus'
-import getRadiantApy from './utils/radiant'
-import getPinkswapApy from './utils/pinkswap'
+import getApeswapApy from './utils/apeswap.js'
+import getApeswapLendApy from './utils/apeswap-lend.js'
+import getBiswapApy from './utils/biswap.js'
+import getBeefyApy from './utils/beefy.js'
+import { getAlpacaLendAPY } from './utils/alpaca.js'
+import getBeltApy from './utils/belt.js'
+import getQuickswapApy from './utils/quickswap.js'
+import getAaveApy from './utils/aave.js'
+import getUniswapV3Apy from './utils/uniswap.js'
+import getCompoundApy from './utils/compound.js'
+import getYearnApy from './utils/yearn.js'
+import getPickleApy from './utils/pickle.js'
+import getPancakeApy from './utils/pancake.js'
+import { getAdapterInfo } from './utils/helper.js'
+import getVenusApy from './utils/venus.js'
+import getRadiantApy from './utils/radiant.js'
+import getPinkswapApy from './utils/pinkswap.js'
 
 // get apy of adapter by name
 const fetchAPY = async (
@@ -89,8 +88,6 @@ const fetchAPY = async (
       )
     } else if (adapterName.includes('aave::')) {
       apyVal = await getAaveApy('0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174')
-    } else if (adapterName.includes('curve::')) {
-      apyVal = await getCurveApy('0x20759F567BB3EcDB55c817c9a1d13076aB215EdC')
     } else if (adapterName.includes('uniswap::')) {
       apyVal = await getUniswapV3Apy(
         '0xA374094527e1673A86dE625aa59517c5dE346d32', // USDC-WMATIC Uniswap v3 pool
