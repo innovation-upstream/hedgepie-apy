@@ -8,14 +8,14 @@ const initPools = async () => {
     { url: 'https://polygon-rpc.com' },
     { gasPrice: 0, maxFeePerGas: 0, maxPriorityFeePerGas: 0 }
   )
-  await curve.fetchFactoryPools()
-  await curve.fetchCryptoFactoryPools()
+  // Fetch factory pools
+  await curve.factory.fetchPools();
+  await curve.crvUSDFactory.fetchPools();
+  await curve.EYWAFactory.fetchPools();
+  await curve.cryptoFactory.fetchPools();
+  await curve.tricryptoFactory.fetchPools();
 
-  poolNames = [
-    ...curve.getPoolList(),
-    ...curve.getFactoryPoolList(),
-    ...curve.getCryptoFactoryPoolList()
-  ]
+  poolNames= curve.getPoolList()
 }
 
 const getCurveApy = async (strategy: string) => {
