@@ -2,17 +2,22 @@ const path = require('path')
 
 module.exports = {
   entry: './src/index.ts',
+  externalsPresets: { node: true },
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'bundle.js',
+    library: '@hedgepie/apy',
+    libraryTarget: 'umd',
+    globalObject: 'this',
+    publicPath: '',
   },
   experiments: {
-    outputModule: true,
+    outputModule: false,
   },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     fallback: {
-      "stream": require.resolve("stream-browserify")
+      "stream": require.resolve("stream-browserify"),
     }
   },
   module: {
