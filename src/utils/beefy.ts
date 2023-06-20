@@ -1,4 +1,4 @@
-import axios from 'axios'
+import fetch from 'node-fetch'
 
 const APY_API_URL = 'https://api.beefy.finance/apy'
 const VAULT_API_URL = 'https://api.beefy.finance/vaults'
@@ -8,12 +8,12 @@ let beefyInfo: any
 const getBeefyApy = async (strategy: string) => {
   try {
     if (!beefyVaults) {
-      beefyVaults = await axios.get(VAULT_API_URL)
+      beefyVaults = await fetch(VAULT_API_URL).then(async r => await r.json())
       beefyVaults = beefyVaults.data
     }
 
     if (!beefyInfo) {
-      beefyInfo = await axios.get(APY_API_URL)
+      beefyInfo = await fetch(APY_API_URL).then(async r => await r.json())
       beefyInfo = beefyInfo.data
     }
 

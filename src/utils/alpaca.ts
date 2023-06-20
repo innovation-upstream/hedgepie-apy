@@ -12,9 +12,11 @@ import { BLOCK_GENERATION_TIME, SECONDS_PERY_YEAR } from '../constants/common'
 
 const lendingPool = '0xA625AB01B08ce023B2a342Dbb12a16f2C8489A8F'
 const alpacaToken = '0x8F0528cE5eF7B51152A59745bEfDD91D97091d2F'
-const provider = new ethers.providers.JsonRpcProvider(
-  'https://bsc.nodereal.io',
-  56
+const provider = new ethers.providers.StaticJsonRpcProvider(
+  {
+    url: 'https://bsc-dataseed.binance.org',
+    skipFetchSetup: true
+  }, 56
 )
 
 const lendingContract = new ethers.Contract(

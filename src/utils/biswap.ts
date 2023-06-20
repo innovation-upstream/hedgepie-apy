@@ -1,19 +1,22 @@
 import { ethers } from 'ethers'
-import axios from 'axios'
+import fetch from 'node-fetch'
 import Moralis from 'moralis'
 import { EvmChain } from '@moralisweb3/common-evm-utils'
-
 import { BLOCK_GENERATION_TIME, SECONDS_PERY_YEAR } from '../constants/common'
-
 import lpAbi from '../config/abi/LPPair.json'
 import masterChefAbi from '../config/abi/BiswapMasterChef.json'
 
-const RPC_URL = 'https://bsc-dataseed1.defibit.io'
 const PRICE_URL = 'https://api.binance.com/api/v3/avgPrice?symbol='
 const masterChefAddr = '0xDbc1A13490deeF9c3C12b44FE77b503c1B061739'
 const blocksPerYear = SECONDS_PERY_YEAR / BLOCK_GENERATION_TIME
 
-const provider = new ethers.providers.JsonRpcProvider(RPC_URL)
+const provider = new ethers.providers.StaticJsonRpcProvider(
+  {
+    url: 'https://bsc-dataseed.binance.org',
+    skipFetchSetup: true
+  }, 56
+)
+
 const masterchefContract = new ethers.Contract(
   masterChefAddr,
   masterChefAbi,
@@ -65,7 +68,7 @@ const getBiswapApy = async (pid: number, moralisApiKey: string) => {
           lpTokenContract.token0()
         ])
 
-      const bswPrice = await axios.get(`${PRICE_URL}BSWUSDT`)
+      const bswPrice = await fetch(`${PRICE_URL}BSWUSDT`).then(async r => await r.json())
       const response = await Moralis.EvmApi.token.getTokenPrice({
         address: token0,
         chain: EvmChain.BSC
@@ -79,7 +82,7 @@ const getBiswapApy = async (pid: number, moralisApiKey: string) => {
       apyData =
         (getPriceFormat(bswPerBlock) *
           (blocksPerYear * poolInfo.allocPoint) *
-          Number(bswPrice.data.price)) /
+          Number((bswPrice as any).data.price)) /
         (totalAlloc * lpTokenPrice) /
         getPriceFormat(lpTokenDeposited)
     }

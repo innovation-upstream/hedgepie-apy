@@ -121,7 +121,7 @@ const fetchAPY = async (
       )
     }
   } catch (err) {
-    throw new Error(err)
+    console.error(err)
   }
 
   // store apy val

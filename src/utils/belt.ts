@@ -1,9 +1,11 @@
 import { BigNumber, ethers } from 'ethers'
 import beltABI from '../config/abi/beltABI.json'
 
-const provider = new ethers.providers.JsonRpcProvider(
-  'https://bsc-dataseed1.ninicoin.io',
-  56
+const provider = new ethers.providers.StaticJsonRpcProvider(
+  {
+    url: 'https://bsc-dataseed.binance.org',
+    skipFetchSetup: true
+  }, 56
 )
 
 const getPriceFormat = (priceInfo: any) => {

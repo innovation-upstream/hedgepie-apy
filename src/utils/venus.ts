@@ -1,4 +1,4 @@
-import axios from 'axios'
+import fetch from 'node-fetch'
 
 const APY_API_URL = 'https://api.venus.io/api/governance/venus'
 let marketInfo: any
@@ -6,7 +6,7 @@ let marketInfo: any
 const getVenusApy = async (strategy: string): Promise<number> => {
   try {
     if (!marketInfo) {
-      marketInfo = await axios.get(APY_API_URL)
+      marketInfo = await fetch(APY_API_URL).then(async r => await r.json())
       marketInfo = marketInfo.data.data.markets
     }
 
