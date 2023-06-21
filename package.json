@@ -1,6 +1,6 @@
 {
   "name": "@hedgepie/apy",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Hedgepie Module for APY Calculations",
   "main": "dist/bundle.node.js",
   "module": "dist/bundle.js",
