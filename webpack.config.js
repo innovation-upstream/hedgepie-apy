@@ -3,6 +3,7 @@ const path = require('path')
 module.exports = {
   entry: './src/index.ts',
   externalsPresets: { node: true },
+  target: 'node', // node target for a Node.js server side app
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: 'bundle.js',
@@ -30,5 +31,4 @@ module.exports = {
       }
     ],
   },
-  devtool: 'source-map'
 }
