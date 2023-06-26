@@ -124,9 +124,6 @@ const fetchAPY = async (
     console.error(err)
   }
 
-  // store apy val
-  if (apyVal < 0) apyVal = 0
-
   return apyVal
 }
 
