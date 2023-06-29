@@ -18,7 +18,8 @@ module.exports = {
     '@typescript-eslint/prefer-optional-chain': 'warn',
     'new-cap': 'warn',
     'eqeqeq': 'warn',
-    'prefer-const': 'warn'
+    'prefer-const': 'warn',
+    '@typescript-eslint/space-before-function-paren': 'off',
   },
   ignorePatterns: [
     'dist',
