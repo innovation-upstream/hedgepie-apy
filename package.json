@@ -1,6 +1,6 @@
 {
   "name": "@hedgepie/apy",
-  "version": "0.1.7",
+  "version": "0.1.9",
   "description": "Hedgepie Module for APY Calculations",
   "main": "dist/bundle.node.js",
   "module": "dist/bundle.js",
@@ -43,7 +43,9 @@
     "graphql-tag": "^2.12.6",
     "moralis": "^2.22.2",
     "node-fetch": "^3.3.1",
-    "stream-browserify": "^3.0.0"
+    "stream-browserify": "^3.0.0",
+    "viem": "^1.1.1",
+    "wagmi": "^1.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.22.5",
